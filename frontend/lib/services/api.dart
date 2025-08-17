@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class Api{
-    static const String baseUrl = "http://127.0.01:5000";
+    static const String baseUrl = "http://127.0.0.1:5000";
 
     static Future<Map<String, dynamic>> login(String email, String password) async{
         final response = await http.post(
