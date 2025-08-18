@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app) 
 
 db = mysql.connector.connect(
     host = "localhost",
@@ -26,7 +27,7 @@ def register():
         return jsonify({"message": "Email password required"}), 400
     
     cursor.execute(
-        "SELECT * FROM users WHERE email=%s", (email)
+        "SELECT * FROM users WHERE email=%s", (email,)
     )
 
     if cursor.fetchone():
