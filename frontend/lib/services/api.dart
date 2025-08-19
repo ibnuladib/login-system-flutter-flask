@@ -1,26 +1,36 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'api_config.dart';
+
 
 class Api{
-    static const String baseUrl = "http://127.0.0.1:5000";
+    static Future<void> register(String username, String password) async {
+    final baseUrl = await ApiConfig.getBaseUrl();
+    final url = Uri.parse("$baseUrl/register");
 
-    static Future<Map<String, dynamic>> login(String email, String password) async{
-        final response = await http.post(
-            Uri.parse("$baseUrl/login"),
-            headers: {"Content-Type":"application/json"},
-            body: jsonEncode({"email":email, "password":password}),
-            );
-        return jsonDecode(response.body);
+    final response = await http.post(url, body: {
+      "username": username,
+      "password": password,
+    });
+
+    if (response.statusCode == 200) {
+      print("✅ Registered successfully: ${response.body}");
+    } else {
+      print("❌ Error: ${response.body}");
     }
+  }
 
-    
-    static Future<Map<String, dynamic>> register(String email, String password) async{
-        final response = await http.post(
-            Uri.parse("$baseUrl/register"),
-            headers: {"Content-Type":"application/json"},
-            body: jsonEncode({"email":email, "password":password}),
-            );
-        return jsonDecode(response.body);
+  static Future<void> login(String username, String password) async {
+    final baseUrl = await ApiConfig.getBaseUrl();
+    final url = Uri.parse("$baseUrl/login");
+    final response = await http.post(url, body: {
+      "username": username,
+      "password": password,
+    });
+    if (response.statusCode == 200) {
+      print("✅ Registered successfully: ${response.body}");
+    } else {
+      print("❌ Error: ${response.body}");
     }
-
+  }
 }
