@@ -17,11 +17,12 @@ class Api {
       }),
     );
 
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body) as Map<String, dynamic>;
-    } else {
-      return {"success": false, "message": "Registration failed"};
-    }
+    final Map<String, dynamic> data = jsonDecode(response.body);
+    return{
+      "success":response.statusCode == 200,
+      "message":data["message"] ?? "Unknown error",
+    };
+
   }
 
   static Future<Map<String, dynamic>> login(String email, String password) async {
