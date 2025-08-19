@@ -55,20 +55,21 @@ def login():
     email = data.get("email")
     password = data.get("password")
 
-    if not email or password:
+    if not email or not password:
+        print(email,password)
         return jsonify({"message": "Email and password required"}), 400
 
-    cursor.execute(
-        "SELECT * FROM users WHERE email=%s",(email)
-        )
+    cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
+
 
     user = cursor.fetchone()
 
     if not user or not check_password_hash(user["password"],password):
-        return jsonify({"messages": "Invalid credentials"}), 401
+        return jsonify({"message": "Invalid credentials"}), 401
     
-    return jsonify({"messages":"login sucessful"}),200
+    return jsonify({"message":"login sucessful"}),200
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
+
